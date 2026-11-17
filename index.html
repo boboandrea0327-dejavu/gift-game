@@ -63,7 +63,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
       <li><b>匿名代號：</b>許願人嚴禁寫本名或常用綽號，請自取一個「形容詞＋名詞」的神秘代號（例：<code>想退休的社畜</code>）。</li>
       <li><b>許願禮物寫法：</b>
         <ol>
-          <li><b>字數限制：</b>題目必須由 4 到 6 個注音組成（不能只寫簡稱，需加上形容詞或用途，如「玫瑰香水」寫作 <code>ㄇㄍㄒㄕ</code>）。</li>
+          <li><b>字數限制：</b>題目必須由 4 到 8 個注音組成（不能只寫簡稱，需加上形容詞或用途，如「玫瑰香水」寫作 <code>ㄇㄍㄒㄕ</code>）。</li>
           <li><b>只取首音：</b>每個字只寫出第一個注音符號，嚴禁標註聲調或結合韻（例：「暖」只寫 <code>ㄋ</code>）。</li>
           <li><b>無聲母原則：</b>遇到沒有聲母的字（如「衣」、「耳」），直接寫出第一個韻母（<code>ㄧ</code>、<code>ㄦ</code>）。</li>
         </ol>
@@ -80,15 +80,15 @@ button:disabled{opacity:.5;cursor:not-allowed}
 
   <section>
     <h2>🎄 許願禮物</h2>
-    <label for="wish">注音題目（4～6 個注音）</label>
+    <label for="wish">注音題目（4～8 個注音）</label>
     <input type="text" id="wish" class="zh" maxlength="12" placeholder="ㄇㄍㄒㄕ" autocomplete="off">
-    <div class="hint">目前 <b id="cnt">0</b> / 6 個。只寫每字第一個注音符號，不要聲調、不要空格。（打到國字「一」會自動轉成注音「ㄧ」）</div>
+    <div class="hint">目前 <b id="cnt">0</b> / 8 個。只寫每字第一個注音符號，不要聲調、不要空格。（打到國字「一」會自動轉成注音「ㄧ」）</div>
     <div class="msg" id="msg"></div>
     <button id="submit" type="button" onclick="submitWish()">送出許願 🎁</button>
     <div class="hint">如果填錯，直接重新填寫再送出一次即可，主辦人會以最後一次為準。</div>
   </section>
 
-  <p class="foot">🎄 Merry Christmas！祝大家換到心儀的禮物 🎄<br>頁面版本 v7</p>
+  <p class="foot">🎄 Merry Christmas！祝大家換到心儀的禮物 🎄<br>頁面版本 v8</p>
 </main>
 
 <iframe name="hif" id="hif" title="hidden" style="display:none" aria-hidden="true"></iframe>
@@ -117,7 +117,7 @@ function check(strict){
   $("cnt").textContent=n;
   let e="";
   if(w&&!ZH.test(w))e="題目只能包含注音符號（不可有聲調或其他文字）。";
-  else if((w||strict)&&(n<4||n>6))e="注音需為 4 到 6 個。";
+  else if((w||strict)&&(n<4||n>8))e="注音需為 4 到 8 個。";
   if(!e&&strict&&!$("code").value.trim())e="請先填寫許願人代號。";
   say(e,"err");
   return !e;
