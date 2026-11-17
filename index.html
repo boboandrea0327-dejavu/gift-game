@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>注音謎盒｜500元交換禮物挑戰賽</title>
+<style>
+:root{--bg1:#0b3d2e;--bg2:#06241b;--red:#c62828;--gold:#f5c542;--paper:#fffaf0;--ink:#2b1d14;--muted:#7a6a5a;--ok:#2e7d32;--err:#b71c1c;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.7;
+background:radial-gradient(ellipse at 50% 0%,#1b6b4f 0%,var(--bg1) 45%,var(--bg2) 100%) fixed;background-color:var(--bg2)}
+.snow{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.snow i{position:absolute;top:-20px;color:#fff;opacity:.8;font-style:normal;animation:fall linear infinite}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.snow{display:none}}
+main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:20px 16px 48px}
+.lights{text-align:center;font-size:22px;letter-spacing:6px;white-space:nowrap;overflow:hidden}
+section{background:var(--paper);border-radius:18px;padding:22px;margin:18px 0;box-shadow:0 8px 24px rgba(0,0,0,.35);border-top:6px solid var(--red)}
+section.hero{text-align:center;border-top-color:var(--gold);background:linear-gradient(180deg,#fff4d6,var(--paper))}
+h1{margin:6px 0;font-size:clamp(26px,6vw,38px);color:var(--red);letter-spacing:2px}
+.sub{color:var(--muted);margin:0}
+.date{display:inline-block;margin:14px 0 0;padding:8px 20px;border-radius:999px;background:var(--red);color:#fff;font-weight:700;font-size:18px;box-shadow:0 3px 0 #8a1c1c}
+h2{margin:0 0 10px;font-size:20px;color:#1b5e20}
+ol{padding-left:1.3em;margin:0}ol li{margin-bottom:10px}
+ol ol{list-style:lower-alpha;margin-top:6px}ol ol li{margin-bottom:4px}
+code{background:#ffe9b8;border-radius:6px;padding:1px 7px;font-weight:700;color:#8a1c1c}
+label{display:block;font-weight:700;margin:12px 0 4px}
+input[type=text]{width:100%;font:inherit;font-size:18px;padding:11px 14px;border:2px solid #d9c9a8;border-radius:12px;background:#fff;color:var(--ink)}
+input[type=text]:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(198,40,40,.2)}
+.zh{font-size:26px!important;letter-spacing:6px;text-align:center}
+.hint{font-size:13px;color:var(--muted);margin-top:4px}
+.msg{min-height:1.5em;font-size:15px;margin-top:6px}.err{color:var(--err)}.ok{color:var(--ok);font-weight:700}
+button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:12px 22px;cursor:pointer;background:var(--red);color:#fff;margin-top:14px;box-shadow:0 3px 0 #8a1c1c}
+button:disabled{opacity:.5;cursor:not-allowed}
+.foot{text-align:center;color:#cfe8dc;font-size:13px}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.box{background:var(--paper);border-radius:20px;padding:28px 24px;max-width:380px;width:100%;text-align:center;border-top:8px solid var(--gold);box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.box .big{font-size:52px}.box h3{margin:6px 0;font-size:24px;color:var(--ok)}.box p{margin:6px 0;color:var(--ink);white-space:pre-line}
+</style>
+</head>
+<body>
+<div class="snow" id="snow" aria-hidden="true"></div>
+<main>
+  <div class="lights" aria-hidden="true">🎄🔴🟡🟢🔴🟡🟢🔴🟡🟢🎄</div>
+
+  <section class="hero">
+    <div style="font-size:44px" aria-hidden="true">🎁🎅🎁</div>
+    <h1>【注音謎盒】</h1>
+    <h1 style="font-size:clamp(20px,4.5vw,28px);margin-top:0">500元交換禮物挑戰賽</h1>
+    <p class="sub">備選：ㄅㄆㄇ盲盒大作戰｜500元限定版</p>
+    <p class="date">🎁 交換日：12/24（四）中午交換</p>
+  </section>
+
+  <section>
+    <h2>📜 遊戲規則</h2>
+    <ol>
+      <li><b>預算上限：</b>禮物價值 500 元以內（可單件或湊組，嚴禁拿家中陳年廢物充數）。</li>
+      <li><b>匿名代號：</b>許願人嚴禁寫本名或常用綽號，請自取一個「形容詞＋名詞」的神秘代號（例：<code>想退休的社畜</code>）。</li>
+      <li><b>許願禮物寫法：</b>
+        <ol>
+          <li><b>字數限制：</b>題目必須由 4 到 6 個注音組成（不能只寫簡稱，需加上形容詞或用途，如「玫瑰香水」寫作 <code>ㄇㄍㄒㄕ</code>）。</li>
+          <li><b>只取首音：</b>每個字只寫出第一個注音符號，嚴禁標註聲調或結合韻（例：「暖」只寫 <code>ㄋ</code>）。</li>
+          <li><b>無聲母原則：</b>遇到沒有聲母的字（如「衣」、「耳」），直接寫出第一個韻母（<code>ㄧ</code>、<code>ㄦ</code>）。</li>
+        </ol>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🎭 許願人代號</h2>
+    <label for="code">你的神秘代號（形容詞＋名詞）</label>
+    <input type="text" id="code" maxlength="20" placeholder="例：想退休的社畜" autocomplete="off">
+    <div class="hint">請勿使用本名或常用綽號喔！</div>
+  </section>
+
+  <section>
+    <h2>🎄 許願禮物</h2>
+    <label for="wish">注音題目（4～6 個注音）</label>
+    <input type="text" id="wish" class="zh" maxlength="12" placeholder="ㄇㄍㄒㄕ" autocomplete="off">
+    <div class="hint">目前 <b id="cnt">0</b> / 6 個。只寫每字第一個注音符號，不要聲調、不要空格。（打到國字「一」會自動轉成注音「ㄧ」）</div>
+    <div class="msg" id="msg"></div>
+    <button id="submit" type="button" onclick="submitWish()">送出許願 🎁</button>
+    <div class="hint">如果填錯，直接重新填寫再送出一次即可，主辦人會以最後一次為準。</div>
+  </section>
+
+  <p class="foot">🎄 Merry Christmas！祝大家換到心儀的禮物 🎄<br>頁面版本 v5</p>
+</main>
+
+<iframe name="hif" id="hif" title="hidden" style="display:none" aria-hidden="true"></iframe>
+<form id="gform" method="POST" target="hif" style="display:none"><input name="entry.1612117338" id="f1"><input name="entry.409566409" id="f2"></form>
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="box">
+  <div class="big">🎉🎁</div><h3 id="mt">許願成功！</h3><p id="mp"></p>
+  <button id="mclose">好的</button></div></div>
+
+<script>
+// ===== Google 表單設定 =====
+const FORM_URL="https://docs.google.com/forms/d/e/1FAIpQLSdrfGcrz7MsyqG85O9zi1Ykk0FZhS0j2Eu2mm2cHBOL-j4MNw/formResponse";
+const ENTRY_CODE="entry.1612117338";   // 許願人代號
+const ENTRY_WISH="entry.409566409";    // 注音題目
+// ===========================
+
+const $=id=>document.getElementById(id);
+(function(){const s=$("snow");for(let i=0;i<32;i++){const f=document.createElement("i");f.textContent=["❄","❅","❆"][i%3];
+f.style.left=Math.random()*100+"%";f.style.fontSize=(10+Math.random()*16)+"px";
+f.style.animationDuration=(8+Math.random()*12)+"s";f.style.animationDelay=(-Math.random()*20)+"s";s.appendChild(f);}})();
+
+const ZH=/^[\u3105-\u3129]+$/;
+const clean=v=>v.replace(/\s+/g,"").replace(/[\u4e00\u30fc\u2014\u2015\u2500]/g,"\u3127"); // 國字「一」等相似字自動轉成注音「ㄧ」
+function say(t,cls){const m=$("msg");m.textContent=t;m.className="msg "+(cls||"");}
+function check(strict){
+  const w=clean($("wish").value),n=[...w].length;
+  $("cnt").textContent=n;
+  let e="";
+  if(w&&!ZH.test(w))e="題目只能包含注音符號（不可有聲調或其他文字）。";
+  else if((w||strict)&&(n<4||n>6))e="注音需為 4 到 6 個。";
+  if(!e&&strict&&!$("code").value.trim())e="請先填寫許願人代號。";
+  say(e,"err");
+  return !e;
+}
+["code","wish"].forEach(id=>["input","change","keyup","compositionend"].forEach(ev=>$(id).addEventListener(ev,()=>check(false))));
+
+let sending=false;
+function showModal(title,text,good){
+  $("mt").textContent=title;$("mt").style.color=good?"var(--ok)":"var(--err)";
+  $("mp").textContent=text;$("modal").classList.add("show");
+}
+$("mclose").addEventListener("click",()=>$("modal").classList.remove("show"));
+function submitWish(){
+  if(sending)return;
+  if(!check(true)){showModal("還沒填好",$("msg").textContent,false);return;}
+  sending=true;$("submit").disabled=true;say("送出中，請稍候…");
+  const code=$("code").value.trim(),wish=clean($("wish").value);$("wish").value=wish;
+  const form=$("gform"),hif=$("hif");
+  form.action=FORM_URL;$("f1").value=code;$("f2").value=wish;
+  let done=false;
+  const finish=(ok)=>{
+    if(done)return;done=true;clearTimeout(timer);hif.onload=null;
+    sending=false;$("submit").disabled=false;
+    if(ok){say("✅ 已送出！","ok");showModal("許願成功！","代號：「"+code+"」\n注音題目："+wish+"\n如需修改，重新填寫再送出一次即可。",true);}
+    else{say("送出失敗，請檢查網路後再試一次。","err");showModal("送出失敗","請檢查網路後再試一次。",false);}
+  };
+  const timer=setTimeout(()=>finish(false),15000);
+  hif.onload=()=>finish(true);
+  form.submit();
+}
+</script>
+</body>
+</html>
