@@ -40,6 +40,9 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .modal.show{display:flex}
 .box{background:var(--paper);border-radius:20px;padding:28px 24px;max-width:380px;width:100%;text-align:center;border-top:8px solid var(--gold);box-shadow:0 12px 40px rgba(0,0,0,.5)}
 .box .big{font-size:52px}.box h3{margin:6px 0;font-size:24px;color:var(--ok)}.box p{margin:6px 0;color:var(--ink);white-space:pre-line}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.chip{background:#ffe9b8;border:2px dashed #c9a24a;border-radius:12px;padding:6px 14px;font-size:22px;font-weight:700;letter-spacing:4px;color:#8a1c1c}
+.ghost{background:#2e7d32;box-shadow:0 3px 0 #1b5e20}
 </style>
 </head>
 <body>
@@ -88,7 +91,15 @@ button:disabled{opacity:.5;cursor:not-allowed}
     <div class="hint">如果填錯，直接重新填寫再送出一次即可，主辦人會以最後一次為準。</div>
   </section>
 
-  <p class="foot">🎄 Merry Christmas！祝大家換到心儀的禮物 🎄<br>頁面版本 v8</p>
+  <section>
+    <h2>🎁 大家的許願禮物</h2>
+    <div class="hint" id="listHint">載入中…</div>
+    <div class="chips" id="wishList"></div>
+    <button type="button" class="ghost" onclick="loadList()">重新整理清單</button>
+    <div class="hint">清單約幾分鐘更新一次；只顯示注音題目，不顯示代號。</div>
+  </section>
+
+  <p class="foot">🎄 Merry Christmas！祝大家換到心儀的禮物 🎄<br>頁面版本 v9</p>
 </main>
 
 <iframe name="hif" id="hif" title="hidden" style="display:none" aria-hidden="true"></iframe>
@@ -102,6 +113,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
 const FORM_URL="https://docs.google.com/forms/d/e/1FAIpQLSdrfGcrz7MsyqG85O9zi1Ykk0FZhS0j2Eu2mm2cHBOL-j4MNw/formResponse";
 const ENTRY_CODE="entry.1612117338";   // 許願人代號
 const ENTRY_WISH="entry.409566409";    // 注音題目
+const SHEET_CSV="https://docs.google.com/spreadsheets/d/e/2PACX-1vQTu7FU2a0tm6dro8FAKGJ8uYmT2ZIE8aa1Z7wxIsszWS7ghmCgyeiizkAxUXZmik6CilQ8M_F8yrt9/pub?gid=1330716484&single=true&output=csv";
 // ===========================
 
 const $=id=>document.getElementById(id);
@@ -123,6 +135,43 @@ function check(strict){
   return !e;
 }
 ["code","wish"].forEach(id=>["input","change","keyup","compositionend"].forEach(ev=>$(id).addEventListener(ev,()=>check(false))));
+
+function parseCSV(t){
+  const rows=[];let r=[],c="",q=false;
+  for(let i=0;i<t.length;i++){const ch=t[i];
+    if(q){if(ch==='"'){if(t[i+1]==='"'){c+='"';i++;}else q=false;}else c+=ch;}
+    else if(ch==='"')q=true;
+    else if(ch===","){r.push(c);c="";}
+    else if(ch==="\n"){r.push(c);rows.push(r);r=[];c="";}
+    else if(ch!=="\r")c+=ch;}
+  if(c!==""||r.length){r.push(c);rows.push(r);}
+  return rows;
+}
+async function loadList(){
+  const hint=$("listHint"),box=$("wishList");
+  hint.textContent="載入中…";
+  try{
+    const res=await fetch(SHEET_CSV+"&t="+Date.now(),{cache:"no-store"});
+    if(!res.ok)throw new Error(res.status);
+    const rows=parseCSV(await res.text()).filter(r=>r.some(x=>x.trim()));
+    if(!rows.length){box.textContent="";hint.textContent="目前還沒有人許願，快來當第一個！";return;}
+    let ic=rows[0].findIndex(h=>h.includes("代號")),iw=rows[0].findIndex(h=>h.includes("注音"));
+    if(ic<0)ic=1;if(iw<0)iw=2;
+    const latest=new Map();
+    rows.slice(1).forEach((r,i)=>{
+      const code=(r[ic]||"").trim(),wish=(r[iw]||"").replace(/\s+/g,"").replace(/[\u4e00\u30fc\u2014\u2015\u2500]/g,"\u3127");
+      if(code&&ZH.test(wish))latest.set(code,wish);   // 同代號只留最後一筆
+    });
+    const list=[...latest.values()];
+    for(let i=list.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[list[i],list[j]]=[list[j],list[i]];}
+    box.textContent="";
+    list.forEach(w=>{const d=document.createElement("div");d.className="chip";d.textContent=w;box.appendChild(d);});
+    hint.textContent=list.length?("目前共 "+list.length+" 份許願（順序已隨機打亂）："):"目前還沒有人許願，快來當第一個！";
+  }catch(e){
+    box.textContent="";hint.textContent="清單暫時無法載入，請稍後再按「重新整理清單」。";
+  }
+}
+loadList();
 
 let sending=false;
 function showModal(title,text,good){
