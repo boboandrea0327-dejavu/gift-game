@@ -42,6 +42,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .box .big{font-size:52px}.box h3{margin:6px 0;font-size:24px;color:var(--ok)}.box p{margin:6px 0;color:var(--ink);white-space:pre-line}
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
 .chip{background:#ffe9b8;border:2px dashed #c9a24a;border-radius:12px;padding:6px 14px;font-size:22px;font-weight:700;letter-spacing:4px;color:#8a1c1c}
+.note{margin:0 0 6px;padding:8px 14px;border-radius:12px;background:#ffe3e3;border:2px solid #e57373;color:#8a1c1c;font-weight:700}
 .ghost{background:#2e7d32;box-shadow:0 3px 0 #1b5e20}
 </style>
 </head>
@@ -93,13 +94,14 @@ button:disabled{opacity:.5;cursor:not-allowed}
 
   <section>
     <h2>🎁 大家的許願禮物</h2>
+    <p class="note">💬 可以討論，但不要透漏最終要送什麼哦！！</p>
     <div class="hint" id="listHint">載入中…</div>
     <div class="chips" id="wishList"></div>
     <button type="button" class="ghost" onclick="loadList()">重新整理清單</button>
     <div class="hint">清單約幾分鐘更新一次；只顯示注音題目，不顯示代號。</div>
   </section>
 
-  <p class="foot">🎄 Merry Christmas！祝大家換到心儀的禮物 🎄<br>頁面版本 v9</p>
+  <p class="foot">🎄 Merry Christmas！祝大家換到心儀的禮物 🎄<br>頁面版本 v11</p>
 </main>
 
 <iframe name="hif" id="hif" title="hidden" style="display:none" aria-hidden="true"></iframe>
